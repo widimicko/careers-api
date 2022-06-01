@@ -116,4 +116,12 @@ class UserController extends Controller
         return response()->json($response, 200);
 
     }
+
+    public function get_user()
+    {
+        return response()->json([
+            'success' => true,
+            'user'    => auth()->user(),
+        ], 400);
+    }
 }

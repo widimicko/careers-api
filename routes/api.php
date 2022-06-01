@@ -49,7 +49,7 @@ Route::post('/add', [UserController::class, 'store']);
 // Route::post('lowongan', [LowonganController::class, 'store']);
 // Auth::routes();
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::post('details', [UserController::class, 'details']);
+    Route::get('get_user', [UserController::class, 'get_user']);
     Route::get('lowongan', [RecruitmentController::class, 'index']);
     Route::post('lowongan-create', [RecruitmentController::class, 'store']);
     Route::post('lowongan-update/{id}', [RecruitmentController::class, 'update']);

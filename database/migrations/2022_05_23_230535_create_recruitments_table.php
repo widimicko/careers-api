@@ -21,7 +21,7 @@ class CreateRecruitmentsTable extends Migration
             $table->text('jobdesc');
             $table->text('qualification');
             $table->text('address');
-            $table->text('type');
+            $table->text('type')->nullable();
             $table->string('image')->nullable();
             $table->date('date');
             $table->timestamps();
