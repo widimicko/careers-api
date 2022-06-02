@@ -22,10 +22,6 @@ class HomeController extends Controller
             ->where('category_id', 'like', "%$category_id%")
             ->get();
 
-        if(!count($filteredVacancies)){
-            return response()->json(['data' => 'Data yang dicari tidak ada'], 404);
-        }
-
         return response()->json(['data' => $filteredVacancies ]);
     }
     // public function search($data)
