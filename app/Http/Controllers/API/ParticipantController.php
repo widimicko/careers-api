@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Participant;
 use App\Models\Recruitment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class ParticipantController extends Controller
@@ -24,20 +25,26 @@ class ParticipantController extends Controller
                 ->where('category_id', 2)
                 ->orderBy('id', 'DESC')
                 ->get();
-
+        // $data = DB::table('recruitments')
+        //         ->join('participants', 'recruitments.id', '=', 'participants.recruitment_id')
+        //         ->select('recruitments.name', 'participants.*')
+        //         ->where('category_id', 2)
+        //         ->orderBy('recruitments.id', 'DESC')
+        //         ->get();
         return response()->json(['data' => $data]);
     }
 
     public function recruitment()
     {
-        // $data = Participant::with('recruitment')
-        //         ->where('category_id', 1)
-        //         ->orderBy('id', 'DESC')
-        //         ->get();
         $data = Recruitment::with('participant')
                 ->where('category_id', 1)
                 ->orderBy('id', 'DESC')
                 ->get();
+        // $data = DB::table('recruitments')
+        //         ->join('participants', 'recruitments.id', '=', 'participants.recruitment_id')
+        //         ->where('category_id', 1)
+        //         ->orderBy('recruitments.id', 'DESC')
+        //         ->get();
 
         return response()->json(['data' => $data]);
     }

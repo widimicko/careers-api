@@ -7,26 +7,43 @@ use App\Models\File;
 use App\Models\Participant;
 use App\Models\Recruitment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-    public function search($data)
-    {
-        $lowongan =   Recruitment::where('name', 'LIKE', '%' . $data . '%')
-                    ->orWhere('category_id', 'LIKE', '%' . $data . '%')
-                    ->orWhere('jobdesc', 'LIKE', '%' . $data . '%')
-                    ->orWhere('qualification', 'LIKE', '%' . $data . '%')
-                    ->orWhere('address', 'LIKE', '%' . $data . '%')
-                    ->get();
-                    if(count($lowongan)){
-                        return response()->json(['data' => $lowongan ]);
-                    }
-                    else
-                    {
-                        return response()->json(['data' => 'Data yang dicari tidak ada'], 404);
-                    }
+    public function filter(Request $request) {
+        $name = $request->name;
+        $category_id = $request->category_id;
+
+        $filteredVacancies = DB::table('recruitments')
+            ->select('*')
+            ->where('name', 'like', "%$name%")
+            ->where('category_id', 'like', "%$category_id%")
+            ->get();
+
+        if(!count($filteredVacancies)){
+            return response()->json(['data' => 'Data yang dicari tidak ada'], 404);
+        }
+
+        return response()->json(['data' => $filteredVacancies ]);
     }
+    // public function search($data)
+    // {
+    //     $lowongan =   Recruitment::where('name', 'LIKE', '%' . $data . '%')
+    //                 ->orWhere('category_id', 'LIKE', '%' . $data . '%')
+    //                 ->orWhere('jobdesc', 'LIKE', '%' . $data . '%')
+    //                 ->orWhere('qualification', 'LIKE', '%' . $data . '%')
+    //                 ->orWhere('address', 'LIKE', '%' . $data . '%')
+    //                 ->get();
+    //                 if(count($lowongan)){
+    //                     return response()->json(['data' => $lowongan ]);
+    //                 }
+    //                 else
+    //                 {
+    //                     return response()->json(['data' => 'Data yang dicari tidak ada'], 404);
+    //                 }
+    // }
     public function lowongan()
     {
         $lowongan = Recruitment::all();
